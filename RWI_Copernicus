@@ -1,0 +1,22 @@
+//VERSION=3
+
+function setup() {
+  return {
+    input: ["B03", "B05", "B08", "B8A", "B12", "dataMask"],
+    output: { bands: 4 }
+  };
+}
+
+function evaluatePixel(sample) {
+
+  let rwi =
+    ((sample.B03 + sample.B05) -
+     (sample.B08 + sample.B8A + sample.B12)) /
+    ((sample.B03 + sample.B05) +
+     (sample.B08 + sample.B8A + sample.B12));
+
+  // Stretch RWI from [-1,1] to [0,1]
+  let vis = (rwi + 1.0) / 2.0;
+
+  return [vis, vis, vis, sample.dataMask];
+}
